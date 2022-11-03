@@ -1,0 +1,43 @@
+---
+title: "Welcome to my world"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# This is Self-introduction of Zijian Xu
+
+My name is Zijian Xu, I am from China. I like music and once played in a band as a drummer.
+
+![](image/ted.jpg)
+
+# ACADEMIC EXPERIENCES
+Experience one:
+Ratings for the Value of Industry News and Effects on Individual Stock Prices | 9/2021-7/2022
+
+Discription:
+carrying out a literature review on the relations between financial news and stock market and the machine learning methods for stock market prediction
+
+
+Experience two:
+Participated in the mathematical modeling training camp at BJFU in 2019 summer and 2020 summer 
+
+Discription:
+went through intensive training on MATLAB, Python and C++ and commonly used mathematical modeling methods.Built teams and competed in 2020 and 2021 MCM, 2020 CUMCM and 2018 APMCM 
+![](image/ted2.jpg)
+
+# PROFESSIONAL EXPERIENCES
+Experience one:
+Oriental Ruitong Advisory Service | Intern
+Product Development Department	Beijing, China | 07/2020-08/2020
+
+Description:
+cted as a project manager to create project framework and decision-making process and put in place the project; selected a project matrix to evaluate project cost, progress, quality and performance and helped with risk control
+
+
+
+# Extracurricular Activities: 
+I like to play in a band, like to sing and dance pooping
+![](image/ted3.jpg)
+

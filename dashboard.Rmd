@@ -1,0 +1,113 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(htmlwidgets)
+library(flexdashboard)
+library(p8105.datasets)
+library(plotly)
+```
+
+
+```{r}
+data("rest_inspec")
+
+rest_inspec= rest_inspec %>% 
+  mutate(cuisine_description = recode(cuisine_description, "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin","Bottled beverages, including water, sodas, juices, etc."="Bottled beverages")
+)
+M_distri_cuisine = 
+  rest_inspec %>% 
+  select(
+    boro, cuisine_description, score, grade) %>%
+  filter(
+    !is.na(score), 
+    boro == "MANHATTAN",
+    #grade == "A"
+  )
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+plot_M_distri_cuisine = M_distri_cuisine %>% 
+  mutate(text_label = str_c("cuisine: ", cuisine_description, "score: ", score)) %>% 
+  mutate(cuisine_description = fct_reorder(cuisine_description, score)) %>% 
+  plot_ly(y = ~score, color = ~cuisine_description, text=~text_label, alpha=0.5,type = "box", colors = "viridis")
+plot_M_distri_cuisine
+
+cuisine_rest_count = rest_inspec %>% 
+  drop_na(score) %>%
+  drop_na(grade) %>% 
+  group_by(cuisine_description) %>% 
+  summarise(n=n()) %>% 
+  arrange(desc(n))
+ plot_cuisine_rc= cuisine_rest_count%>% 
+   mutate(text_label = str_c("cuisine: ", cuisine_description, " count: ", n)) %>%
+  plot_ly(x = ~cuisine_description, y = ~n, text=~text_label,color = ~cuisine_description, type = "bar", colors = "viridis")
+ plot_cuisine_rc
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+cui_distri_grade = rest_inspec %>% 
+  filter(cuisine_description == "American"|cuisine_description=="Chinese"|cuisine_description=="Japanese") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>% 
+  group_by(cuisine_description, grade) %>% 
+  summarise(n = n()) 
+
+plot_boro_distri_grade = cui_distri_grade %>% 
+  ggplot(aes(x = grade, y = n)) +
+  geom_bar(aes(fill = cuisine_description), stat="identity") +
+  theme(axis.text.x = element_text(hjust = 1), legend.position="right") + 
+  facet_wrap(~cuisine_description, nrow = 1) + 
+  theme(legend.position = "none") + 
+  ggtitle("The scores of each grades")
+
+ggplotly(plot_boro_distri_grade)
+```
+
+
+### Chart C
+
+
+```{r}
+American_year_trend = rest_inspec %>% 
+  filter(cuisine_description=="American") %>% 
+  drop_na(score) %>%
+  drop_na(grade) %>% 
+  group_by(dba) %>% 
+  summarise(n=n()) %>% 
+  arrange(desc(n))
+
+American_year_trend = rest_inspec %>%   
+  mutate(
+    date=as.Date(grade_date)
+  ) %>% 
+  filter(
+    dba=="MCDONALD'S"| dba=="DUNKIN' DONUTS"|dba=="APPLEBEE'S") %>% 
+  select(date,dba,score) %>% 
+  drop_na()
+
+plot_dba_year = American_year_trend %>% 
+  
+  plot_ly(x = ~date, y = ~score, color = ~dba, type = "bar", colors = "viridis")
+plot_dba_year
+```
+

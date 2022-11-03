@@ -1,0 +1,20 @@
+name: "Zijian Xu!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Professional Coursework"
+      href: professional_coursework.html
+    - text: "Dashboard"
+      href: dashboard.html
+    - text: "Home page"
+      href: index.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<zx2425@cumc.columbia.com>
+    - icon: fa-github fa-lg
+      href: http://github.com/ZiJian-zx2425/
+output:
+  html_document:
+    theme: cerulean
